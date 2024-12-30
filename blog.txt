@@ -1,0 +1,90 @@
+db.users.insertMany([{name: "Deena", age: 25, email: "deena@r.op"}, {name: "Dayal", age: 28, email: "daya@r.op"}])
+
+db.post.insertOne({title: "first post", text: "Description for my first post", creator: ObjectId('677141909d35e20ced567a2b'), comments: [{ text: "Nice post", user: ObjectId('677141909d35e20ced567a2c')}]})
+
+db.post.drop()
+
+db.createCollection("posts", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["title", "text", "creator", "comments"],
+      properties: {
+        title: {
+          bsonType: "string",
+          description: "title must be a string and it is required",
+        },
+        text: {
+          bsonType: "string",
+          description: "text must be a string and it is required",
+        },
+        creator: {
+          bsonType: "objectId",
+          description: "creator must be a objectId and it is required",
+        },
+        comments: {
+          bsonType: "array",
+          description: "comments must be an array and it is required",
+          items: {
+            bsonType: "object",
+            required: ["text", "author"],
+            properties: {
+              text: {
+                bsonType: "string",
+                description: "text must be a string and it is required",
+              },
+              author: {
+                bsonType: "objectId",
+                description: "author must be an objectId and it is required",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+db.runCommand({
+  collMod: "posts",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["title", "text", "creator", "comments"],
+      properties: {
+        title: {
+          bsonType: "string",
+          description: "title must be a string and it is required",
+        },
+        text: {
+          bsonType: "string",
+          description: "text must be a string and it is required",
+        },
+        creator: {
+          bsonType: "objectId",
+          description: "creator must be a objectId and it is required",
+        },
+        comments: {
+          bsonType: "array",
+          description: "comments must be an array and it is required",
+          items: {
+            bsonType: "object",
+            required: ["text", "author"],
+            properties: {
+              text: {
+                bsonType: "string",
+                description: "text must be a string and it is required",
+              },
+              author: {
+                bsonType: "objectId",
+                description: "author must be an objectId and it is required",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  validationAction: "warn",
+});
+

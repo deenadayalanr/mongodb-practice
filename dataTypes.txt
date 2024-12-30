@@ -1,0 +1,19 @@
+db.companies.insertOne({name: "Fresh Apples Inc", isStartup: true, employees: 33, funding: 12345678901234567890, details: {ceo: "Gowtham",cto: "Deenadayalan"}, tags: [{ title: "Flutter"}, {title: "Node.js"}], foundingDate: new Date(), insertedAt:new Timestamp()})
+db.stats()
+
+relations
+1-1
+db.patients.insertOne({name: "Max", age: 30, disease: "summary-max-1"})
+db.diseaseSummaries.insertOne({_id: "summary-max-1", diseases:["cold", "Fever", "broken leg"]})
+db.patients.insertOne({name: "Max", age: 30, diseaseSummary:["cold", "Fever", "broken leg"]})
+
+1-Many
+
+db.questionThreads.insertOne({creator: "Max", question: "How does all that work?", answers: ["q1a1", "q2a2"]})
+
+db.cities.insertOne({name: "New York", coordinates: {lat: 22, lng: 28}})
+
+Many- many 
+
+lookup
+db.books.aggregate([{$lookup: {from: "authors" , localField: "author", foreignField: "_id"  ,as: "creators"}}])
